@@ -45,5 +45,15 @@ public class Quiz5 {
                 )
                 .collect(Collectors.toList());
 
+        //QUIZ 5-3 리듀스 map과 reduce 메서드를 이용해서 스트림의 요리 개수를 계산
+        Integer reduce = menu.stream()
+                .map(i -> 1)
+                .reduce(0, Integer::sum);
+
+        Integer reduce1 = menu.stream().map(d -> 1)
+                .reduce(0, (a, b) -> a + b);
+
+
+
     }
 }
