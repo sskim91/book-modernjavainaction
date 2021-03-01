@@ -13,26 +13,34 @@ import java.util.Optional;
 
 public class Partitioning {
 
-  public static void main(String... args) {
-    System.out.println("Dishes partitioned by vegetarian: " + partitionByVegeterian());
-    System.out.println("Vegetarian Dishes by type: " + vegetarianDishesByType());
-    System.out.println("Most caloric dishes by vegetarian: " + mostCaloricPartitionedByVegetarian());
-  }
+    public static void main(String... args) {
+        System.out.println("Dishes partitioned by vegetarian: " + partitionByVegeterian());
+        List<Dish> dishes = partitionByVegeterian().get(true);
+        dishes.forEach(System.out::println);
 
-  private static Map<Boolean, List<Dish>> partitionByVegeterian() {
-    return menu.stream().collect(partitioningBy(Dish::isVegetarian));
-  }
+        System.out.println("Vegetarian Dishes by type: " + vegetarianDishesByType());
+        System.out.println("Most caloric dishes by vegetarian: " + mostCaloricPartitionedByVegetarian());
+    }
 
-  private static Map<Boolean, Map<Dish.Type, List<Dish>>> vegetarianDishesByType() {
-    return menu.stream().collect(partitioningBy(Dish::isVegetarian, groupingBy(Dish::getType)));
-  }
+    private static Map<Boolean, List<Dish>> partitionByVegeterian() {
+        //채식주의자 친구를 위한 모든 요리를 채식 요리와 아닌 요리로 분류
+        //분할함수 partitioningBy
+        return menu.stream()
+                .collect(partitioningBy(Dish::isVegetarian));
+    }
 
-  private static Object mostCaloricPartitionedByVegetarian() {
-    return menu.stream().collect(
-        partitioningBy(Dish::isVegetarian,
-            collectingAndThen(
-                maxBy(comparingInt(Dish::getCalories)),
-                Optional::get)));
-  }
+    private static Map<Boolean, Map<Dish.Type, List<Dish>>> vegetarianDishesByType() {
+        return menu.stream()
+                .collect(partitioningBy(Dish::isVegetarian, //분할 함수
+                        groupingBy(Dish::getType)));    //두 번째 컬렉터
+    }
+
+    private static Object mostCaloricPartitionedByVegetarian() {
+        return menu.stream().collect(
+                partitioningBy(Dish::isVegetarian,
+                        collectingAndThen(
+                                maxBy(comparingInt(Dish::getCalories)),
+                                Optional::get)));
+    }
 
 }
