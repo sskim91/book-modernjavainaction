@@ -39,7 +39,7 @@ public class Quiz06 {
     }
 
     //QUIZ 6-3 자바 8로 takeWhile 흉내내기
-    public static <A > List < A > takeWhile(List < A > list, Predicate<A> p) {
+    public static <A> List<A> takeWhile(List<A> list, Predicate<A> p) {
         int i = 0;
         for (A item : list) {
             if (!p.test(item)) {    //리스트의 현재 항목이 프레디케이트를 만족하는지 확인

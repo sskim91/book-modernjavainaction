@@ -14,25 +14,24 @@ import modernjavainaction.chap17.TempSubscription;
 
 public class Main {
 
-  public static void main(String[] args) {
-    ActorSystem system = ActorSystem.create("temp-info");
-    Materializer materializer = ActorMaterializer.create(system);
+    public static void main(String[] args) {
+        ActorSystem system = ActorSystem.create("temp-info");
+        Materializer materializer = ActorMaterializer.create(system);
 
-    Publisher<TempInfo> publisher =
-        Source.fromPublisher(getTemperatures("New York"))
-            .runWith(Sink.asPublisher(AsPublisher.WITH_FANOUT), materializer);
-    publisher.subscribe(new TempSubscriber());
+        Publisher<TempInfo> publisher =
+                Source.fromPublisher(getTemperatures("New York"))
+                        .runWith(Sink.asPublisher(AsPublisher.WITH_FANOUT), materializer);
+        publisher.subscribe(new TempSubscriber());
 
-    try {
-      Thread.sleep(10000L);
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-    catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
-  private static Publisher<TempInfo> getTemperatures(String town) {
-    return subscriber -> subscriber.onSubscribe(new TempSubscription(subscriber, town));
-  }
+    private static Publisher<TempInfo> getTemperatures(String town) {
+        return subscriber -> subscriber.onSubscribe(new TempSubscription(subscriber, town));
+    }
 
 }

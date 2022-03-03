@@ -16,7 +16,7 @@ public class Quiz5 {
 
         //Quiz 5-1 스트림을 이용해서 처음 등장하는 두 고기 요리를 필터링하시오.
         menu.stream()
-                .filter(i -> i.getType()==Dish.Type.MEAT)
+                .filter(i -> i.getType() == Dish.Type.MEAT)
                 .limit(2)
                 .forEach(System.out::println);
 
@@ -52,7 +52,6 @@ public class Quiz5 {
 
         Integer reduce1 = menu.stream().map(d -> 1)
                 .reduce(0, (a, b) -> a + b);
-
 
 
     }

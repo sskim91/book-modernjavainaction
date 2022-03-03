@@ -56,7 +56,7 @@ public class StreamForker<T> {
         queues.add(queue);
         Spliterator<T> spliterator = new BlockingQueueSpliterator<>(queue);
         Stream<T> source = StreamSupport.stream(spliterator, false);
-        return CompletableFuture.supplyAsync( () -> f.apply(source) );
+        return CompletableFuture.supplyAsync(() -> f.apply(source));
     }
 
     public static interface Results {
@@ -107,8 +107,7 @@ public class StreamForker<T> {
                 try {
                     t = q.take();
                     break;
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                 }
             }
 

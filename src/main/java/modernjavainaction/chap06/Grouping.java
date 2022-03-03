@@ -1,5 +1,6 @@
 package modernjavainaction.chap06;
 
+import static java.util.Comparator.*;
 import static java.util.stream.Collectors.*;
 import static modernjavainaction.chap06.Dish.dishTags;
 import static modernjavainaction.chap06.Dish.menu;
@@ -69,8 +70,8 @@ public class Grouping {
 
     private static Map<Dish.Type, Map<CaloricLevel, List<Dish>>> groupDishedByTypeAndCaloricLevel() {
         return menu.stream().collect(
-                groupingBy(Dish::getType,
-                        groupingBy((Dish dish) -> {
+                groupingBy(Dish::getType,   //첫 번째 수준의 분류함수
+                        groupingBy((Dish dish) -> { //두 번째 수준의 분류함수
                             if (dish.getCalories() <= 400) {
                                 return CaloricLevel.DIET;
                             } else if (dish.getCalories() <= 700) {
@@ -95,10 +96,10 @@ public class Grouping {
 
     private static Map<Dish.Type, Dish> mostCaloricDishesByTypeWithoutOprionals() {
         return menu.stream().collect(
-                groupingBy(Dish::getType,
+                groupingBy(Dish::getType,   //분류 함수
                         collectingAndThen(
-                                reducing((d1, d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2),
-                                Optional::get)));
+                                maxBy(comparingInt(Dish::getCalories)), //감싸인 컬렉터
+                                Optional::get)));   //변환 함수
     }
 
     private static Map<Dish.Type, Integer> sumCaloriesByType() {

@@ -33,10 +33,11 @@ public class ExecuteAround {
     }
 
     //람다를 전달할 수 있다.
+
     /**
-     람다 표현식으로 함수형 인터페이스의 추상메서드 구현을 직접 전달할 수 있으며 전달된 코드는 함수형 인터페이스의
-     인스턴스로 전달된 코드와 같은 방식으로 처리한다.
-    **/
+     * 람다 표현식으로 함수형 인터페이스의 추상메서드 구현을 직접 전달할 수 있으며 전달된 코드는 함수형 인터페이스의
+     * 인스턴스로 전달된 코드와 같은 방식으로 처리한다.
+     **/
     public static String processFile(BufferedReaderProcessor p) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
             return p.process(br);
